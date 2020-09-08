@@ -1,0 +1,109 @@
+% define the type of document I want to make
+\documentclass[12pt, letterpaper]{article}
+
+% the natbib package lets me use extra citation commands
+\usepackage[authoryear]{natbib}
+% the hyperref package lets me insert a hyperlink, and makes table of contents and references clickable
+\usepackage{hyperref}
+% wasysym lets me insert a smiley/frowny face
+\usepackage{wasysym}
+
+% enter the document environment
+\begin{document}
+
+% set the title
+\title{Homework 1 - PHYS 5391}
+% set author
+\author{Elizabeth Vandegriff}
+% set date as current date
+\date{\today}
+
+% make the above title/author/date visible
+\maketitle
+% leave the rest of the title page blank
+\newpage
+% create a table of contents based on the sections I define throughout the doc
+\tableofcontents
+\newpage
+
+% first section!
+\section{Programming Experience}
+
+% A section dedicated to your current programming experience. Discuss what languages you have used in the past, what types of tasks you are comfortable performing, and what languages and tasks you would like to learn. If there are any texts that you found particularly helpful and would strongly recommend, be sure to cite them in your bibliography.
+
+My first ever ``programming'' experience was in high school, where I  used a program called \href{https://www.alice.org/}{Alice} to make a figure skater complete a very complex and mind-bending skating routine. I did this completely on my own, by trial and error, and had a blast.
+
+\begin{equation}
+  % provide label so it can be referenced
+  \label{eq:2}
+  % components of the actual equation
+  \rho \frac{d \vec{V}}{dt} = - \nabla P + \vec{J} \times \vec{B}
+% leave the equation environment
+\end{equation}
+
+In undergrad, I started using Mathematica, then took my first ever programming class, where I learned basic Python. I don't remember if we did much object oriented work at all, so clearly if we did, it didn't stick. In 2016 I did some development of the spacepy pycdf capabilities at the University of New Hampshire (UNH) in preparation for the Parker Solar Probe mission. In 2017 I participated in a theoretical neuclear astronomy research group where I taught myself basic C for the purpose of visualizing simulations of neutron star crusts. I took a C++ class later on, but I have not used C or C++ since then, so it would take me a little while to get back up to speed. In addition, I used MatLab in multiple math classes, as well as a computer imaging class. Throughout undergrad I used \LaTeX to write lab reports, class project reports, and my senior project.
+
+In 2018/2019 I used Python to analyze LANL GEO data, and starting in Fall of 2019, I have been using Python to analyze Space Weather Modeling Framework (SWMF) runs.
+
+I am comfortable with writing (sloppy) Python, and I am pretty good at learning new languages, so I am excited to learn Fortran. I want to get better at structuring and documenting my code, as well as learning more about object oriented programming in Python and what situations it is best suited for.
+
+The tools I used to learn were either the Internet, lectures, trial and error, or a combination of all these, so I haven't used any specific texts that I could recommend.
+
+% enter a new section
+\section{Programming Environment}
+
+% Describe your programming environment in terms of operating system, text/code editor, and access to a command line terminal. I want to know how you'll be doing work for this class. Are you using a personal Windows laptop? Will you be relying on CAEN computers? Do you have access to the appropriate tools?
+
+I am working in a Macintosh operating system, specifically Mac OS Mojave (version 10.14.6) on the laptop loaned to me for research at UTA. I am using XQuartz as my command line terminal, and a combination of Emacs and Spyder for text/code editing. Other relevant environment considerations: I do not have a printer, and I miss my office-mate Christian \frownie{}.
+
+% yet another section
+\section{Favorite Equation}
+
+% A section where you select your favorite physical law/equation, list it explicitly, and describe in words what it means. Describe each term in detail. Include a table that lists each variable and its meaning.Ensure that your equation has a number and that you reference it properly, e.g. \Equation 1 shows that...". Use the nref syntax such that if I add an equation randomly in your document, it will not ruin your referencing.
+
+My favorite equation at this moment in time is the magnetohydrodynamics momentum equation, given by Equation \ref{eq:1}
+
+% enter environment for a referencable equation
+\begin{equation}
+  % provide label so it can be referenced
+  \label{eq:1}
+  % components of the actual equation
+  \rho \frac{d \vec{V}}{dt} = - \nabla P + \vec{J} \times \vec{B}
+% leave the equation environment
+\end{equation}
+
+\section{Thoughts on Example Doc}
+
+% A section where you comment on the example document you studied for Questions 2 and 3. Was it clear? Was it accurate? Was it complete? Your input will be used to refine it.
+
+rip ok here's \cite[]{Dimmock2020,Hietala2012,Lopez2010}
+
+
+\section{Article Summaries}
+
+% A section where you select three or more scholarly articles you have read and briefly summarize them (one or two sentences per article). Be sure to properly cite each article in your bibliography!
+
+idk
+
+
+\section{Image and Explanation}
+
+% A section where you select a random picture that you obtain from the Internet and include it in the document. Caption it, then include a paragraph that describes and references it properly (e.g., \Figure 1 illustrates how a dog would answer a phone...").
+
+meme
+
+
+\section{Something New and Exciting}
+
+% Perform some task not covered in the example document. For example, split your document into two columns, insert some colored text in the document, create clickable-hyperlinks, or customize the document's layout. You will need to research what to do and how to do it. Include a section that says specifically what task you performed and how you were able to achieve it. I want you to teach me how to do what you did.
+
+feynman diagram
+
+
+\clearpage
+\addcontentsline{toc}{section}{Bibliography}
+
+\bibliographystyle{plainnat}
+\bibliography{hw1_bib}
+
+\end{document}
