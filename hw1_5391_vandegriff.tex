@@ -11,7 +11,8 @@
 \usepackage{graphicx}
 % tikz-feynman lets you easily draw Feynman diagrams. Explained in the section "Something New and Exciting"
 \usepackage[compat=1.1.0]{tikz-feynman}
-
+% letting LaTeX do line breaks easier so it doesn't complain about hboxes
+\setlength{\emergencystretch}{5pt}
 
 
 % enter the document environment to begin!
@@ -40,7 +41,7 @@
 
 My first ever ``programming'' experience was in high school, where I  used a program called \href{https://www.alice.org/}{Alice} to make a figure skater complete a very complex and mind-bending (aka physically impossible) skating routine. I did this completely on my own, by trial and error, and had a blast.
 
-In undergrad, I started using Mathematica, then took my first ever programming class, where I learned basic Python. I don't remember if we did much object oriented work at all, so clearly if we did, it didn't stick. In 2016 I did some development of the spacepy pycdf capabilities at the University of New Hampshire (UNH) in preparation for the Parker Solar Probe mission. In 2017 I participated in a theoretical neuclear astronomy research group where I taught myself basic C for the purpose of visualizing simulations of neutron star crusts. I took a C++ class later on, but I have not used C or C++ since then, so it would take me a little time to get back up to speed. In addition, I used MatLab in multiple math classes, as well as a computer imaging class. Throughout undergrad I used \LaTeX to write lab reports, class project reports, and my senior project.
+In undergrad, I started using Mathematica, then took my first ever programming class, where I learned basic Python. I don't remember if we did much object oriented work at all, so clearly if we did, it didn't stick. In 2016 I did some development of the spacepy pycdf capabilities at the University of New Hampshire (UNH) in preparation for the Parker Solar Probe mission. In 2017 I participated in a theoretical neuclear astronomy research group where I taught myself basic C for the purpose of visualizing simulations of neutron star crusts. I took a C++ class later on, but I have not used C or C++ since then, so it would take me a little time to get back up to speed. In addition, I used MatLab in multiple math classes, as well as a computer imaging class. Throughout undergrad I used \LaTeX\ to write lab reports, class project reports, and my senior project.
 
 In 2018/2019 I used Python to analyze LANL GEO satellite data, and starting in Fall of 2019, I have been using Python to analyze Space Weather Modeling Framework (SWMF) runs.
 
@@ -139,11 +140,14 @@ Each of the following subsections gives a short summary of one scholarly article
 
 Using both simulation and spacecraft data, \citet[]{Lopez2010} studies the ionospheric potentials that result from the full range of possibilities for solar wind conditions, including ionospheric potential saturation, and presents force balance in the magnetosheath as the main regulator of geoeffective length. 
 
+% left-justify title so it doesn't complain about overfull hboxes
+\begin{flushleft}
+  % begin a subsection
+  \subsection{Defining Radiation Belt Enhancement Events Based on Probability Distributions}
+% done with left-justifying
+\end{flushleft}
 
-% begin a subsection
-\subsection{Defining Radiation Belt Enhancement Events Based on Probability Distributions}
-
-\citet[]{Reeves2020} outlines a new method of defining space weather events by examining ion and electron flux data from the LANL geosynchronous satellites from 1989 through 2018. Examining frequency of events per solar cycle as a function of event flux threshold yields a determination of magnitude for moderate (100 occurrences per cycle), strong (10 occurrences per cycle), and intense (1 occurrence per cycle) events, which is then applied to data from the Van Allen Probes mission and can be applied to other datasets.
+\noindent \citet[]{Reeves2020} outlines a new method of defining space weather events by examining ion and electron flux data from the LANL geosynchronous satellites from 1989 through 2018. Examining frequency of events per solar cycle as a function of event flux threshold yields a determination of magnitude for moderate (100 occurrences per cycle), strong (10 occurrences per cycle), and intense (1 occurrence per cycle) events, which is then applied to data from the Van Allen Probes mission and can be applied to other datasets.
 
 % another section
 \section{Image and Explanation}
@@ -171,7 +175,7 @@ Figure \ref{fig:meme} shows what to do in the case of a fire in the building whi
 
 % Perform some task not covered in the example document. For example, split your document into two columns, insert some colored text in the document, create clickable-hyperlinks, or customize the document's layout. You will need to research what to do and how to do it. Include a section that says specifically what task you performed and how you were able to achieve it. I want you to teach me how to do what you did.
 
-Let's make our very own Feynman diagram right in the \LaTeX environment! Figure \ref{fig:feynman} shows the decay of the top quark, and this section outlines how to recreate it.
+Let's make our very own Feynman diagram right in the \LaTeX\ environment! Figure \ref{fig:feynman} shows the decay of the top quark, and this section outlines how to recreate it.
 
 % enter figure environment, make figure appear RIGHT HERE
 \begin{figure}[ht!]
@@ -226,8 +230,9 @@ Because this decay is complicated I had to use manual placement of the vertices 
 % adding a space to make the next paragraph stand out
 \vspace{4mm}
 % adding a non-indented note in italics with breaks for some typewriter text
-\noindent \emph{\textbf{Note:} Compiling the TikZ-Feynman package with} \texttt{pdflatex} \emph{gives several warnings, but seems to work fine for my particular diagram. Compiling with} \texttt{lualatex} \emph{is recommended by the developer and works without issue.}
+\noindent \emph{\textbf{Note:} Compiling the TikZ-Feynman package with} \texttt{pdflatex} \emph{warns that only compiling with} \texttt{lualatex} \emph{enables automatic vertex placement, but since mine are manually placed, this warning is irrelevant. However, to avoid all warnings, compile with} \texttt{lualatex.}
 
+% also a fun thing I learned: using a backslash after \LaTeX (e.g. \LaTeX\) puts a nice space after LaTeX so it's weird formatting doesn't squish other words
 
 
 % puts bibliography on new page

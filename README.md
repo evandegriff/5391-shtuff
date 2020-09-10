@@ -1,7 +1,7 @@
 # 5391-shtuff
 Assignments and Uploads for Scientific programming PHYS 5391-001
 
-to get a correct pdf file for the homework assignment, run the following commands:
+To get a correct pdf rendition of the homework assignment, run the following commands:
 
 $ pdflatex filename.tex
 $ bibtex filename
