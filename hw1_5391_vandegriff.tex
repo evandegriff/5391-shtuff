@@ -1,7 +1,7 @@
-% define the type of document I want to make
+% define the type of document I want to make (article), set 12pt font and letter-sized paper
 \documentclass[12pt, letterpaper]{article}
 
-% the natbib package lets me use extra citation commands
+% the natbib package lets me use extra citation commands, authoryear sorts bibliography by author last name, then year of publication
 \usepackage[authoryear]{natbib}
 % the hyperref package lets me insert a hyperlink, and makes table of contents and references clickable
 \usepackage{hyperref}
@@ -14,7 +14,7 @@
 
 
 
-% enter the document environment
+% enter the document environment to begin!
 \begin{document}
 
 % set the title
@@ -30,6 +30,7 @@
 \newpage
 % create a table of contents based on the sections I define throughout the doc
 \tableofcontents
+% start sections on new page after table of contents
 \newpage
 
 % first section!
@@ -61,7 +62,7 @@ I am working in a Macintosh operating system, specifically Mac OS Mojave (versio
 
 My favorite equation at this moment in time is the magnetohydrodynamics (MHD) momentum equation, given by Equation \ref{eq:1}
 
-% enter environment for a referencable equation
+% enter environment for a referencable math equation
 \begin{equation}
   % provide label so it can be referenced
   \label{eq:1}
@@ -70,7 +71,7 @@ My favorite equation at this moment in time is the magnetohydrodynamics (MHD) mo
 % leave the equation environment
 \end{equation}
 
-This equation is basically the $F=ma$ of the MHD world, and shows that the sum of the negative pressure force and the Lorentz force is equal to the mass density times the acceleration of the plasma. This equation holds for isotropic pressure cases.
+This equation is basically the $\vec{F}=m\vec{a}$ of the MHD world, and shows that the sum of the negative pressure force and the Lorentz force is equal to the mass density times the acceleration of the plasma. This equation holds for isotropic pressure cases.
 
 Let's break this equation down into components in Table \ref{tab:1}:
 
@@ -80,14 +81,15 @@ Let's break this equation down into components in Table \ref{tab:1}:
   % puts table in center of the page
   \centering
   % enter tabular environment, left aligned left col, centered right col
+  % | characters indicate which cols to place vertical lines between
   \begin{tabular}{|l|c|}
     % add a horizontal line
     \hline
-    % define the columns
+    % define the two columns
     Variable & Meaning\\
     % another horizontal line
     \hline
-    % put each variable in table
+    % put each variable in table using inline math notation
     $\rho$ & Plasma mass density\\ 
     $\frac{d \vec{u}}{dt}$ & Time derivative of the plasma flow speed\\
     $\nabla P$ & Plasma pressure gradient\\
@@ -99,7 +101,7 @@ Let's break this equation down into components in Table \ref{tab:1}:
   \end{tabular}
   % table caption
   \caption{Description of variables in MHD momentum equation.}
-  % label so we can reference table
+  % label so I can reference table
   \label{tab:1}
 % exit out of table environment
 \end{table}
@@ -122,6 +124,7 @@ Each of the following subsections gives a short summary of one scholarly article
 % begin a subsection
 \subsection{On the regional variability of dB/dt and its significance to GIC}
 
+% in-text citation
 \citet[]{Dimmock2020} describes the differences in magnetometer readings over small scales (~500km), possible causes, and impacts on modeling. Scientists are interested in modeling and predicting these variations because they affect ground conducting systems such as power lines.
 
 
@@ -187,9 +190,8 @@ Let's make our very own Feynman diagram right in the \LaTeX environment! Figure 
       \vertex [above right=of c] (f2) {\(\overline \ell\)};
       \vertex [below right=of c] (f3) {\(\nu_{\ell}\)}; 
 
-      % enter diagram environment
+      % enter diagram environment to specify particle types, edges, labels
       \diagram* {
-        % specify all edges, provide labels and particle types
         (a) -- [fermion] (b) -- [fermion] (f1),
         (b) -- [boson, edge label'=\(W^{+}\)] (c),
         (c) -- [anti fermion] (f2),
@@ -220,10 +222,10 @@ There are several ways to make this figure, but the easiest is by using the Ti\t
 where {\tt [compat=1.1.0]} sets the version of the package to a constant so your drawing doesn't get ruined by a future update of the package. \href{https://www.overleaf.com/learn/latex/feynman\_diagrams}{This link} gives a good explanation of how to use the package, and is based off \citet[]{Ellis2016}
 
 Because this decay is complicated I had to use manual placement of the vertices (outlined in \citet[Sec 2.4.3]{Ellis2016}) rather than the more simple diagram options available. Comments in my \texttt{.tex} file show how I constructed the Feynman diagram using the manual placement technique.
+% adding a space to make the next paragraph stand out
 \vspace{4mm}
-
 % adding a non-indented note in italics with breaks for some typewriter text
-\noindent \emph{\textbf{Note:} Compiling the TikZ-Feynman package with} \texttt{pdflatex} \emph{gives several warnings, but seems to work fine for my particular diagram. Compiling with} \texttt{lualatex} \emph{is recommended by the developer.}
+\noindent \emph{\textbf{Note:} Compiling the TikZ-Feynman package with} \texttt{pdflatex} \emph{gives several warnings, but seems to work fine for my particular diagram. Compiling with} \texttt{lualatex} \emph{is recommended by the developer and works without issue.}
 
 
 
@@ -235,7 +237,7 @@ Because this decay is complicated I had to use manual placement of the vertices 
 % choosing the built-in bibliography style
 \bibliographystyle{plainnat}
 % choosing which .bib file to read bibliography from
-\bibliography{hw1_bib}
+\bibliography{hw1_5391_vandegriff}
 
-% leave the document environment
+% leave the document environment, because we're done!
 \end{document}
