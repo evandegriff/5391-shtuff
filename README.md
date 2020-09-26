@@ -1,6 +1,9 @@
 # 5391-shtuff
 Assignments and Uploads for Scientific programming PHYS 5391-001
 
+There is a separate folder for each homework assignment.
+
+Homework 1 NOTES:
 To get a correct pdf rendition of the homework assignment, run the following commands:
 
 $ pdflatex filename.tex
