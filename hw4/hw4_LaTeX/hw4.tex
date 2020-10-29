@@ -15,7 +15,7 @@
 \begin{document}
 
 % set the title
-\title{Homework 3 - PHYS 5391}
+\title{Homework 4 - PHYS 5391}
 % set author
 \author{Elizabeth Vandegriff}
 % set date as current date
@@ -30,105 +30,17 @@
 % start sections on new page after table of contents
 \newpage
 
-\section{Bastille Day Event}
-
-On July 15, 2000, a solar storm hit Earth and its effects rocked our magnetic field. We use Disturbance Storm Time $(D_{ST})$ to quantify the level of magnetospheric disturbance, with a more negative $D_{ST}$ signifying a stronger disturbance. During the storm, $D_{ST}$ drops to around -300 as shown in Figure \ref{fig:dst}, showing significant magnetospheric activity.
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/DST.png}
-  \caption{Plotting $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:dst}
-\end{figure}
-
-$D_{ST}$ is known to be tied to Interplanetary Magnetic Field (IMF) data and solar wind speed, and the current task is to explore which variables related to IMF and solar wind are have clear relationships.
-
-\section{Exploring DST Correlations}
-
-Relevant variables that we can compare alongside $D_{ST}$ are the x, y, and z components of both magnetic field B and solar wind velocity V, as well as the Number Density and Temperature.
-
-
-\clearpage
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/vx_and_DST.png}
-  \caption{Comparing $V_{x}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:vx}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/vy_and_DST.png}
-  \caption{Comparing $V_{y}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:vy}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/vz_and_DST.png}
-  \caption{Comparing $V_{z}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:vz}
-\end{figure}
-
-Figures \ref{fig:vx}, \ref{fig:vy}, and \ref{fig:vz} show the various components of velocity plotted with $D_{ST}$. Looking at these $V_{x}$ and $V_{y}$, there is no clear correlation, but $V_{z}$ seems to increase as $D_{ST}$ decreases, suggesting that an increase in the the velocity of the solar wind in the z direction could cause a drop in $D_{ST}$.
-
+\section{Weasels!}
 
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=12cm]{../plots/bx_and_DST.png}
-  \caption{Comparing $B_{x}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:bx}
+  \includegraphics[width=12cm]{../plots/gens_size_mean_100_25_to_200.png}
+  \caption{Visualizing the data, yo.}
+  \label{fig:vargen}
 \end{figure}
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/by_and_DST.png}
-  \caption{Comparing $B_{y}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:by}
-\end{figure}
 
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/bz_and_DST.png}
-  \caption{Comparing $B_{z}$ and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:bz}
-\end{figure}
-
-Figures \ref{fig:bx}, \ref{fig:by}, and \ref{fig:bz} show the various components of magnetic field plotted with $D_{ST}$. Similarly, $B_{x}$ and $B_{y}$ do not seem to correlate, but for $B_{z}$, the data clearly follows the drop in $D_{ST}$. That is to say, from these plots we can surmise that a drop in $D_{ST}$ and a drop in $B_{z}$ go hand in hand.
-
-
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/rho_and_DST.png}
-  \caption{Comparing Number Density and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:rho}
-\end{figure}
-
-Figure \ref{fig:rho} shows that Number Density has no clear correlation to $D_{ST}$.
-
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=12cm]{../plots/temp_and_DST.png}
-  \caption{Comparing Temperature and $D_{ST}$ over the Bastille Day storm.}
-  \label{fig:temp}
-\end{figure}
-
-Figure \ref{fig:temp} shows a very clear connection between Temperature and  $D_{ST}$, as both decrease in the same time range at the same rate.
-
-Overall conclusions from analysis of these plots would suggest that the z-component of solar wind velocity, the z-component of magnetic field strength, and the temperature are directly correlated with $D_{ST}$, with an increase in velocity causing a decrease in $D_{ST}$, and a decrease in magnetic field or temperature causing a decrease in $D_{ST}$. In each plot there are parts of $B_{z}$, $V_{z}$, and Temp that show an increase or decrease when there is little significant change in $D_{ST}$. This suggests that only very large changes will have an effect on $D_{ST}$, which makes sense because it is a metric to look at storms, and thus, extreme activity.
-
-
-\section{Plot Style}
-
-These plots effectively show the various correlations between $D_{ST}$, solar wind velocity, temperature, and magnetic field using color, spacing, labels, units, and clear titles.
-
-I used a straightforward and simple plot style with a red-blue color scheme and separate, color-coded y-axes for the two data series, to clearly show both $D_{ST}$ and the variable being plotted without cluttering the plot with a legend. I used separate y-axes so that the scale of each one could be clearly seen, and neither is distorted by trying to share a scale. For example, without these separated y-axes, temperature would not have been clearly correlated with $D_{ST}$, because the scales are so different the $D_{ST}$ curve would appear flat.
-
-To better see the details and observe correlations between $D_{ST}$ and different variables, the plots are zoomed in to show just the time surrounding the event rather than the full range of time in the files, and the figure size is horizontally extended. The sparse time ticks on the x-axis are enough to give an idea of the scale along the x-axis, while leaving plenty of space in between ticks so they are readable and do not make the plot look cluttered.
 
 
 \end{document}
