@@ -101,7 +101,7 @@ def weasel_program(gen_size, mutation_rate, target_phrase, printout=False):
                 # if any chars match target phrase, add one to offspring score
                 if each_offspring[j] == target_phrase[j]:
                     score += 1
-            # assign the total score to hte offspring
+            # assign the total score to the offspring
             offspring_dict[each_offspring] = score
         # get offspring with max score, define as new starting string
         start_string = max(offspring_dict, key=offspring_dict.get)
@@ -207,6 +207,14 @@ gen_size = 100
 # single run of the weasel program
 weasel_program(gen_size, mut_rate, target_phrase, printout=True)
 
-#some very simple test runs
+# average of a thousand runs, with fixed mutation rate and gen size
+# NOTE: this part takes several minutes to run - you have been warned. uncomment at own risk
+# all_runs = []
+# for j in range(1000):
+#     all_runs.append(weasel_program(gen_size, mut_rate, target_phrase))
+# mean_conv = np.mean(all_runs)
+# print(f'Mean convergence over 1000 runs = {mean_conv}')
+
+#some very simple explore_var runs
 explore_var("Generation Size", 100, 105, 10, mut_rate, target_phrase)
 explore_var("Mutation Rate", 4, 10, 10, gen_size, target_phrase)
