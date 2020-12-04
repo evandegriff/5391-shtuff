@@ -154,6 +154,7 @@ fig2, ax2 = plt.subplots(figsize=[14,7])
 # set bin number to 12, one for each month
 plt.hist(all_epochs, bins=12, edgecolor='black', linewidth=1.2)
 # add labels to everything
+ax2.set_ylim([80,140])
 plt.title('Number of Substorms Binned by Month', size=20)
 plt.ylabel('Number of Substorms', size=15)
 # save figure for future reference
