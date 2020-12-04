@@ -2,7 +2,7 @@
 
 '''Script to download 2003 imf data from the Internet'''
 
-import urllib
+import urllib.request
 import datetime
 import os
 
