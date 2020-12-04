@@ -111,18 +111,24 @@ with open('substorm_epochs.txt', 'w') as f:
     f.write(f'Input dir used: {args.imfdir}\n')
     for e in all_epochs: f.write(f'{e:%Y-%m-%d %H:%M:%S} UT \n')
 
+# bonus printout of average substorm frequency
+month_freq = len(all_epochs)/12
+week_freq = len(all_epochs)/52
+day_freq = len(all_epochs)/365
+
+print(f'Average Monthly Substorm Frequency = {month_freq}')
+print(f'Average Weekly Substorm Frequency = {week_freq}')
+print(f'Average Daily Substorm Frequency = {day_freq}')
+
 
 # Create figure object and axes objects.
 fig = plt.figure(figsize=[25,10])
+# fig = plt.figure()
 a1, a2 = fig.add_subplot(211), fig.add_subplot(212)
 
 # Create line plots:
 a1.plot(all_time, all_epsilon, 'r-', lw=2)
 a2.plot(all_time, all_energy,   '-', lw=2)
-
-# Create and label horizontal threshold line:
-a2.text(all_time[0], 0.05, 'Substorm Energy Threshold')
-a2.hlines(0.0, all_time[0], all_time[-1], linestyles='dashed', lw=2.0)
 
 # Place epochs onto plot, preserving y-limits.
 ymin, ymax = a2.get_ylim()                    # get current axis limits.
@@ -140,10 +146,11 @@ a2.set_yticklabels('')
 
 fig.tight_layout()
 # save so we can look at this fig later
-plt.savefig(f'./{outputdir}/2003_substorms.png')
+plt.savefig(f'./{outputdir}/2003_substorms_epochs.png')
 
 # new plot with histogram of monthly substorm count 
-fig2 = plt.figure(figsize=[14,7])
+# fig2 = plt.figure(figsize=[14,7])
+fig2, ax2 = plt.subplots(figsize=[14,7])
 # set bin number to 12, one for each month
 plt.hist(all_epochs, bins=12, edgecolor='black', linewidth=1.2)
 # add labels to everything
@@ -151,5 +158,31 @@ plt.title('Number of Substorms Binned by Month', size=20)
 plt.ylabel('Number of Substorms', size=15)
 # save figure for future reference
 plt.savefig(f'./{outputdir}/2003_substorm_hist')
+
+# yet another plot
+# Create figure object and axes objects.
+fig3 = plt.figure(figsize=[25,10])
+# fig = plt.figure()
+ax1, ax2 = fig3.add_subplot(211), fig3.add_subplot(212)
+
+# Create line plots:
+ax1.plot(all_time, all_epsilon, 'r-', lw=2)
+ax2.plot(all_time, all_energy,   '-', lw=2)
+
+# uncomment these two lines to change y-lims of plots
+# ax1.set_ylim( [0, .0005] )
+# ax2.set_ylim( [-2, .2] )
+
+# Y-axes labels:
+ax1.set_ylabel('Solar Wind Power' , size=14)
+ax2.set_ylabel('Tail Energy State', size=14)
+
+# Y-axis ticks:
+ax1.set_yticklabels('')
+ax2.set_yticklabels('')
+
+fig3.tight_layout()
+# save so we can look at this fig later
+plt.savefig(f'./{outputdir}/2003_substorms.png')
 
 plt.show()
