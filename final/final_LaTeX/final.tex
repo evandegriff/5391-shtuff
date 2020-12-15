@@ -1,0 +1,47 @@
+% define the type of document I want to make (article), set 12pt font and letter-sized paper
+\documentclass[12pt, letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+% the natbib package lets me use extra citation commands, authoryear sorts bibliography by author last name, then year of publication
+\usepackage[authoryear]{natbib}
+% the hyperref package lets me insert a hyperlink, and makes table of contents and references clickable
+\usepackage{hyperref}
+% graphicx allows....graphics
+\usepackage{graphicx}
+% letting LaTeX do line breaks easier so it doesn't complain about hboxes
+\setlength{\emergencystretch}{5pt}
+
+
+% enter the document environment to begin!
+\begin{document}
+
+% set the title
+\title{Final Project - PHYS 5391}
+% set author
+\author{Elizabeth Vandegriff}
+% set date as current date
+\date{\today}
+
+% make the above title/author/date visible
+\maketitle
+% leave the rest of the title page blank
+\newpage
+
+
+\section{Proposal}
+In space physics, the Auroral Electrojet (AE) provides a measure of the magnetic activity in the auroral region, calculated by subtracting the maximum and minimum of the North magnetic field components of about 12 auroral zone observatories between latitudes of 65 and 70 degrees. In the Space Weather Modeling Framework (SWMF), the simulated Auroral Electrojet (AE) index is not always a useful numeric because of how approximately it is currently calculated in the SWMF - using 24 stations at a fixed 70 degrees.
+
+For my project, I intend to use output that the SWMF already provides to calculate a more accurate AE that can be used for analysis and comparison to observation, using the minimal number of magnetometers. This will involve calculating AE from all stations between 65 and 70  degrees, then using fewer and fewer in my calculation until I am using the fewest possible to reproduce a satisfactory AE.
+
+This project will involve file reading, parsing, and writing as well as data visualization in python.
+
+%\begin{figure}[!ht]
+%  \centering
+%  \includegraphics[width=10cm]{../hah3.jpeg}
+%  \caption{Meme.}
+%  \label{fig:sub}
+%\end{figure}
+
+
+
+
+\end{document}
