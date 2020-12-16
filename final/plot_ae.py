@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt # to do our plotting
 import os # to check if output folder exists and make it if not
 import numpy as np # many calculation, yes
 from glob import glob # collecting the files we need into a list
+from kneed import KneeLocator
+ 
 
 # set input and output directories here
 # chose not to use argparse this time since there are individual functions
@@ -81,7 +83,7 @@ def plot_all_ae(ae_file_list):
     plt.close('all')
 
 # run the above function, using globbed ae files from beginning of script
-plot_all_ae(ae_files)
+# plot_all_ae(ae_files)
 
 
 
@@ -140,11 +142,115 @@ def plot_each_ae(ae_file_list):
 
 
 # run the above function, using globbed ae files from beginning of script
-plot_each_ae(ae_files)
+# plot_each_ae(ae_files)
 
 
 
-def plot_ae_rmse(ae_file_list):
+def plot_single_ae(ae_file):
+    """
+    Produces single plot of AE over time, from specified file.
+
+    Parameters
+    ----------
+    ae_file : string
+        Filename of pkl to be plotted.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    # get number of stations used in AE calculation from filename
+    num_stations = int(ae_file[-7:-4])
+    # open pkl
+    with open(ae_file, 'rb') as f: ae_pkl = load(f)
+    # save datetimes to an array
+    dts = np.array(ae_pkl['epochs'])
+    # save AE data to an array
+    ae = ae_pkl['ae']
+    # define a new figure
+    fig = plt.figure(figsize=(11,5))
+    # give figure a title
+    fig.suptitle(f'AE Calculated with {num_stations} magnetometers', fontsize=16)
+    # define axes
+    ax = plt.subplot(111)
+    # set global y-label
+    ax.set_ylabel(f'AE (nT)')
+    # plot AE over all datetimes
+    ax.plot(dts, ae)
+    # set x-axis limits (first and last datetime)
+    ax.set_xlim(dts[0], dts[-1])
+    # make plot compact and neat
+    plt.tight_layout()
+    # save the figure to file
+    plt.savefig(f'{output_dir}/ae_{num_stations}.png')
+    # once ALL plots are made, close figure
+    plt.close('all')
+
+
+# run the above function, using single ae file
+plot_single_ae(f'./{input_dir}/ae_dict050.pkl')
+
+
+
+def plot_single_al_au(ae_file):
+    """
+    Produces single plot of AL and AU over time, from specified file.
+
+    Parameters
+    ----------
+    ae_file : string
+        Filename of pkl to be plotted.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    # get number of stations used in AE calculation from filename
+    num_stations = int(ae_file[-7:-4])
+    # open pkl
+    with open(ae_file, 'rb') as f: ae_pkl = load(f)
+    # save datetimes to an array
+    dts = np.array(ae_pkl['epochs'])
+    # save AL data to an array
+    al = ae_pkl['al']
+    # save AU data to an array
+    au = ae_pkl['au']
+    # define a new figure
+    fig = plt.figure(figsize=(11,5))
+    # give figure a title
+    fig.suptitle(f'AU and AL Calculated with {num_stations} magnetometers', fontsize=16)
+    # define axes
+    ax = plt.subplot(111)
+    # set global y-label
+    ax.set_ylabel(f'AE (nT)')
+    # plot AL over all datetimes
+    ax.plot(dts, al, label=f'AL - {num_stations} mags')
+    # plot AU over all datetimes
+    ax.plot(dts, au, label=f'AU - {num_stations} mags')
+    # set x-axis limits (first and last datetime)
+    ax.set_xlim(dts[0], dts[-1])
+    # show the x-axis
+    ax.axhline(y=0, color='k')
+    # show legend in upper left, placement optimized to not obstruct data
+    ax.legend(loc="upper left")
+    # make plot compact and neat
+    plt.tight_layout()
+    # save the figure to file
+    plt.savefig(f'{output_dir}/al_au_{num_stations}.png')
+    # once ALL plots are made, close figure
+    plt.close('all')
+
+
+# run the above function, using single ae file
+plot_single_al_au(f'./{input_dir}/ae_dict050.pkl')
+
+
+
+def plot_ae_rmse(ae_file_list, vline=False):
     """
     Produces single plot of rmse as a function of number of magnetometers used 
     to calculate AE. AE calculated using 360 mags is used as the 'actual' 
@@ -155,18 +261,20 @@ def plot_ae_rmse(ae_file_list):
         others. The assumption is that the last file will always be the AE
         values calculated using 360 magnetometers.
 
+
     Parameters
     ----------
     ae_file_list : list
         List of filename strings (including filepath) that will be used to 
         produce the plot.
+    vline : bool, optional
+        Plots a vertical line at optimized knee point. The default is False.
 
     Returns
     -------
     None.
 
     """
-    
     # create empty array for rmse values
     rmse_vals = []
     # create empty array for number of mags used in AE calc
@@ -210,15 +318,22 @@ def plot_ae_rmse(ae_file_list):
     ax.set_xlabel('Number of Magnetometers used in AE calculation')
     # set x-axis limits (first and last datetime)
     ax.set_xlim(num_mags[0], num_mags[-1])
+    ax.set_ylim(0, max(rmse_vals))
+    if vline:
+         kn = KneeLocator(num_mags, rmse_vals, curve='convex', direction='decreasing')
+         ax.vlines(kn.knee, ax.get_ylim()[0], ax.get_ylim()[1], colors='k', linestyles='dashed')
+         out_file_name = f'{output_dir}/rmse_v_num_mags_vline.png'
+    else:
+        out_file_name = f'{output_dir}/rmse_v_num_mags.png'
     # increase num of x-axis ticks to get better visual of where curve drops
     plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 10))
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file
-    plt.savefig(f'{output_dir}/rmse_v_num_mags.png')
+    plt.savefig(out_file_name)
     # once plot is saved, close figure
     plt.close('all')
 
 
 # run the above function, using globbed ae files from beginning of script
-plot_ae_rmse(ae_files)
+plot_ae_rmse(ae_files, vline=True)
