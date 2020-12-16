@@ -10,7 +10,6 @@
 % letting LaTeX do line breaks easier so it doesn't complain about hboxes
 \setlength{\emergencystretch}{5pt}
 
-
 % enter the document environment to begin!
 \begin{document}
 
@@ -25,22 +24,61 @@
 \maketitle
 % leave the rest of the title page blank
 \newpage
+% create a table of contents based on the sections I define throughout the doc
+\tableofcontents
+% start sections on new page after table of contents
+\newpage
+
+\section{Intro} \label{intro}
+
+In space physics, the Auroral Electrojet (AE) provides a measure of the magnetic activity in the auroral region, calculated by subtracting the maximum and minimum of the North magnetic field components of about 12 auroral zone observatories between latitudes of 65 and 70 degrees. Space weather modelers calculate the same AE using the output of their model, with varying success. In the Space Weather Modeling Framework (SWMF), the simulated Auroral Electrojet (AE) index is not always a useful numeric because of how approximately it is currently calculated. Unlike the real-life AE calculation, the SWMF calculates AE using 24 virtual magnetometer stations at a fixed 70 degrees.
+
+This final project provides an alternative and more accurate model AE calculation using the SWMF model output. The end result is a set of values for AE over a period of serveral days (September 6-8, 2017) that minimizes both the root-mean-square error (RMSE) and the number of virtual magnetometers used in the calculation.
+
+Section \ref{calc} describes the setup and code involved in calculating the auroral indices. Section \ref{vis} shows a visual representation of the calculated data, and describes the code used to accomplish this. Section \ref{anal} draws conclusions from the data visualization and provides details of the optimization process. Finally, Section \ref{conc} provides an overview of the project, goals, and methodology.
 
 
-\section{Proposal}
-In space physics, the Auroral Electrojet (AE) provides a measure of the magnetic activity in the auroral region, calculated by subtracting the maximum and minimum of the North magnetic field components of about 12 auroral zone observatories between latitudes of 65 and 70 degrees. In the Space Weather Modeling Framework (SWMF), the simulated Auroral Electrojet (AE) index is not always a useful numeric because of how approximately it is currently calculated in the SWMF - using 24 stations at a fixed 70 degrees.
+\section{AE Calculation} \label{calc}
 
-For my project, I intend to use output that the SWMF already provides to calculate a more accurate AE that can be used for analysis and comparison to observation, using the minimal number of magnetometers. This will involve calculating AE from all stations between 65 and 70  degrees, then using fewer and fewer in my calculation until I am using the fewest possible to reproduce a satisfactory AE.
+To calculate AE from simulation output, it is necessary to first describe the conditions of the model that produced this output. The Space Weather Modeling Framework is highly customizable, and takes inputs such as solar wind conditions to attempt to reproduce observed events. Output for such a run produces thousands of files that describe the conditions around Earth during a specified time range. Among these are a set of files containing magnetometer readings for virtual ground magnetometers at various latitudes and longitudes.
 
-This project will involve file reading, parsing, and writing as well as data visualization in python.
+In this project, the magnetic field values from these magnetometer files will be used to calculate AE. For the run analyzed in this project, the SWMF output provides magnetometers on a one-degree by one-degree grid, for latitudes from 0 to 85 degrees, and longitudes from 0 to 360 degrees. In addition, this run has a 10-second frequency, meaning it creates files with new values for every 10 seconds of simulated time from September 6, 2017 18:00:00 to September 9, 2017 00:00:00.
+AE will be calculated by restricting the array of northward magnetic field readings to only a specified latitude range (65 to 70 degrees), and subtracting the minimum and maximum values of the resulting array. The python script \texttt{calc\_ae.py} performs the AE calculation for each file (aka each 10-second timestep), saves the AE value into a dictionary, and writes the dictionary into a python pickle.
 
+Without any modifications, \texttt{calc\_ae.py} calculates AE using the full resolution of the output - that is, taking the max and min of all magnetometers from 0 to 360 degrees longitude for each latitude. Because another goal of the project is to reproduce AE using the least possible number of magnetometers, another step is added to specify how many magnetometers are used in the AE calculation. This can be implemented using \texttt{scipy.signal.resample} in Python, which resamples an array at a specified rate. This enables the user to run \texttt{calc\_ae.py} using a decreased number of magnetometers.
+
+Below are the steps to calculate AE for a single magnetometer file:
+\begin{itemize}
+  \item Open the magnetometer file using SpacePy
+  \item Access the northward magnetic field readings array which contains values for all virtual magnetometers
+  \item Select portion of array that corresponds to 65-70 degrees latitude
+  \item Resample the array to use specified number of magnetometers per degree latitude
+  \item Calculate min and max of array
+  \item AE is the subtraction of the min and the max
+\end{itemize}
+
+\texttt{calc\_ae.py} loops through the specified files and calculates an AE for each timestep. Because of the 10-second frequency, there are almost 20,000 magnetometer files in the entire run. While all of these files are used in the AE calculation, it would take too long to process all files each time the code is run during the development, testing, and debugging processes. To work around this, the code is written to toggle between the full version (processing all magnetometer files) and a debugging version (processing only a few selected files). The debugging version is turned on by default, and as well as restricting the number of files, it prints additional information to the screen for verification purposes.
+
+The goal of calculating AE using SWMF model output has been achieved, and the new goal is to determine the minimum number of magnetometers that are needed to reproduce a satisfactory AE. The first step of this process is to run \texttt{calc\_ae.py} for a decreasing number of magnetometers. \texttt{create\_range\_pkls.py} is a short script that allows the user to specify a start, stop, and step range, then loops through and runs \texttt{calc\_ae.py} for each step size (aka number of magnetometers. 
+
+
+\section{AE Calculation Visualization} \label{vis}
+
+\section{AE Calculation Analysis} \label{anal}
+
+
+\section{Conclusions} \label{conc}
+
+
+This project demonstrates Python scripting, file I/O in python, and data visualization in python.
+
+% blaaaaah doesn't work
 %\begin{figure}[!ht]
 %  \centering
-%  \includegraphics[width=10cm]{../hah3.jpeg}
-%  \caption{Meme.}
+%  \includegraphics[width=10cm]{ae.png}
+%  \caption{wowwee}
 %  \label{fig:sub}
 %\end{figure}
-
 
 
 
