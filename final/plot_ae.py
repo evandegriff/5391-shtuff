@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """
-Functions to plot AE data
+Functions to plot AE, AL, and AU data
+
+All functions will run when script is run. Comment function calls as needed.
+
 plot_all_ae:
     Produces single plot with AE plotted over time, one curve for each file in 
     the chosen folder.
 plot_each_ae:
     Produces successive plots of AE over time, adding one curve at a time from 
     specified folder. Used to make animated GIF.
+plot_single_ae(ae_file):
+    Produces single plot of AE over time, from specified file.
+plot_single_al_au:
+    Produces single plot of AL and AU over time, from specified file.
 plot_ae_rmse:
     Produces single plot of rmse as a function of number of magnetometers used 
     to calculate AE. AE calculated using 360 mags is used as the 'actual' 
