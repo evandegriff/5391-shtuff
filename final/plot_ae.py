@@ -67,7 +67,7 @@ def plot_all_ae(ae_file_list):
     # loop through pkls, get ae data, and plot on same axes
     for ae_file in ae_file_list:
         # get number of stations used in AE calculation from filename
-        num_stations = int(ae_file[-7:-4])
+        num_stations = int(ae_file[-8:-4])
         # open pkl
         with open(ae_file, 'rb') as f: ae_pkl = load(f)
         # save datetimes to an array
@@ -121,7 +121,7 @@ def plot_each_ae(ae_file_list):
     # loop through pkls, get ae data, and plot on same axes, saving each time
     for ae_file in ae_file_list:
         # get number of stations used in AE calculation from filename
-        num_stations = int(ae_file[-7:-4])
+        num_stations = int(ae_file[-8:-4])
         # open pkl
         with open(ae_file, 'rb') as f: ae_pkl = load(f)
         # save datetimes to an array
@@ -169,7 +169,7 @@ def plot_single_ae(ae_file):
     """
     
     # get number of stations used in AE calculation from filename
-    num_stations = int(ae_file[-7:-4])
+    num_stations = int(ae_file[-8:-4])
     # open pkl
     with open(ae_file, 'rb') as f: ae_pkl = load(f)
     # save datetimes to an array
@@ -197,7 +197,7 @@ def plot_single_ae(ae_file):
 
 
 # run the above function, using single ae file
-plot_single_ae(f'./{input_dir}/ae_dict050.pkl')
+plot_single_ae(f'./{input_dir}/ae_dict0300.pkl')
 
 
 
@@ -217,7 +217,7 @@ def plot_single_al_au(ae_file):
     """
     
     # get number of stations used in AE calculation from filename
-    num_stations = int(ae_file[-7:-4])
+    num_stations = int(ae_file[-8:-4])
     # open pkl
     with open(ae_file, 'rb') as f: ae_pkl = load(f)
     # save datetimes to an array
@@ -253,7 +253,7 @@ def plot_single_al_au(ae_file):
 
 
 # run the above function, using single ae file
-plot_single_al_au(f'./{input_dir}/ae_dict050.pkl')
+plot_single_al_au(f'./{input_dir}/ae_dict0300.pkl')
 
 
 
@@ -297,7 +297,7 @@ def plot_ae_rmse(ae_file_list, vline=False):
     # loop through remaining AE files and compare with baseline AE values
     for ae_file in ae_file_list[:-1]:
         # get number of stations used in AE calculation from filename
-        num_mags_each = int(ae_file[-7:-4])
+        num_mags_each = int(ae_file[-8:-4])
         # append num of mags to num_mags
         num_mags.append(num_mags_each)
         # open pkl
@@ -333,7 +333,7 @@ def plot_ae_rmse(ae_file_list, vline=False):
     else:
         out_file_name = f'{output_dir}/rmse_v_num_mags.png'
     # increase num of x-axis ticks to get better visual of where curve drops
-    plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 10))
+    # plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 10))
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file

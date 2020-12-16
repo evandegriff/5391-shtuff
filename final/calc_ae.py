@@ -52,7 +52,7 @@ from scipy.signal import resample #to specify how many mags to use
 
 # set a boolean to limit/add functionality during debugging/testing
 # makes it easier to make small changes without re-running entire fileset
-debug = False
+debug = True
 
 # name variables from the arguments
 output_folder = args.outdir
@@ -89,16 +89,24 @@ for mag_file in mag_files:
     # get file time from attributes
     epoch =  mag.attrs['time']
     # more debugging print statements
-    if debug: print(epoch)
+    if debug: 
+        print(epoch)
+        print(mag['Lat'][0], mag['Lat'][-1])
     # get dBn array for selected latitudes only
     dBn = mag['dBn'][:,lower_lat:upper_lat+1]
     # resample data to specific number of magnetometers
     dBn = resample(dBn, resample_rate)
+    total_mags = resample_rate*(upper_lat - lower_lat+1)
+    if debug:
+        print(f'resample rate = {resample_rate}')
+        print(f'total mags = {total_mags}')
     # more debugging print statements
     if debug: print(np.shape(dBn))
     # set AL to be min of resampled array
+    # np.amin flattens a 2-D array to take the min
     al = np.amin(dBn)
     # set AU to max of resampled array
+    # np.amax flattens a 2-D array to take the max
     au = np.amax(dBn)
     # calculate ae as the difference between AU and AL
     ae = au - al
@@ -124,6 +132,6 @@ if debug: print(ae_dict)
 # save ae_dict to pkl, different filenames/locations for debug version
 if debug:
     # use resample rate in filename to distinguish it from others
-    with open(f'./{output_folder}/ae_dict{resample_rate:03}_debug.pkl', 'wb') as f: dump(ae_dict, f)
+    with open(f'./{output_folder}/ae_dict{total_mags:04}_debug.pkl', 'wb') as f: dump(ae_dict, f)
 else:
-    with open(f'./{output_folder}/ae_dict{resample_rate:03}.pkl', 'wb') as f: dump(ae_dict, f)
+    with open(f'./{output_folder}/ae_dict{total_mags:04}.pkl', 'wb') as f: dump(ae_dict, f)
