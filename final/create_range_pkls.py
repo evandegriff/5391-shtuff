@@ -12,9 +12,9 @@ import os
 debug = True
 
 # define the start, astop, and step integers to loop through
-start = 12
+start = 10
 stop = 361
-step = 36
+step = 10
 
 # separate script runs for debug and full versions
 if debug:

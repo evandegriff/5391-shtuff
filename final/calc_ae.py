@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 """
-Docstring
+Code to calculate AL, AU, AE, and AO index proxy from SWMF magnetometer output.
+Requires input folder and output folder as args.
+Can specify latitude range to use for calculations.
+Produces pickled dictionary containing epochs and calculated auroral indices.
+
+example:
+    python calc_ae.py mag_files_debug/ temp_output/ -u 60 -l 80 -r 180
+
+The above example reads mag files from 'mag_files_debug/', calculates auroral 
+indices using 180 magnetometers from 60 degrees to 80 degrees latitude, and 
+dumps the resulting pickle into 'temp_output/'
 """
 
 # handle args first, import argparse
@@ -42,7 +52,7 @@ from scipy.signal import resample #to specify how many mags to use
 
 # set a boolean to limit/add functionality during debugging/testing
 # makes it easier to make small changes without re-running entire fileset
-debug = True
+debug = False
 
 # name variables from the arguments
 output_folder = args.outdir
