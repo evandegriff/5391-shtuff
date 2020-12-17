@@ -3,6 +3,7 @@
 Functions to plot AE, AL, and AU data
 
 All functions will run when script is run. Comment function calls as needed.
+Provide input and output folders as args.
 Example:
     python plot_ae.py ae_pkls_10_361_10/ ae_plots/
 
