@@ -31,7 +31,7 @@ from kneed import KneeLocator
 
 # set input and output directories here
 # chose not to use argparse this time since there are individual functions
-input_dir = 'ae_pkls'
+input_dir = 'ae_pkls_10_361_10'
 output_dir = './ae_plots'
 
 # check if desired output folder exists, if not, create it
@@ -61,7 +61,8 @@ def plot_all_ae(ae_file_list):
     # define a new figure
     fig = plt.figure(figsize=(11,5))
     # give figure a title
-    fig.suptitle(f'AE Calculated with varying numbers of magnetometers', fontsize=16)
+    fig.suptitle(f'AE Calculated with varying numbers of magnetometers', 
+                 fontsize=16)
     # define axes
     ax = plt.subplot(111)
     # loop through pkls, get ae data, and plot on same axes
@@ -77,7 +78,7 @@ def plot_all_ae(ae_file_list):
         # plot AE over all datetimes
         ax.plot(dts, ae, label=f'{num_stations} mags')
     # after all files are plotted, set y-axis label
-    ax.set_ylabel(f'AE (nT)')
+    ax.set_ylabel(f'AE (nT)', fontsize=16)
     # set x-axis limits (first and last datetime)
     ax.set_xlim(dts[0], dts[-1])
     # show legend in upper left, placement optimized to not obstruct data
@@ -90,7 +91,7 @@ def plot_all_ae(ae_file_list):
     plt.close('all')
 
 # run the above function, using globbed ae files from beginning of script
-# plot_all_ae(ae_files)
+plot_all_ae(ae_files)
 
 
 
@@ -113,11 +114,12 @@ def plot_each_ae(ae_file_list):
     # define a new figure
     fig = plt.figure(figsize=(11,5))
     # give figure a title
-    fig.suptitle(f'AE Calculated with varying numbers of magnetometers', fontsize=16)
+    fig.suptitle(f'AE Calculated with varying numbers of magnetometers', 
+                 fontsize=16)
     # define axes
     ax = plt.subplot(111)
     # set global y-label
-    ax.set_ylabel(f'AE (nT)')
+    ax.set_ylabel(f'AE (nT)', fontsize=16)
     # loop through pkls, get ae data, and plot on same axes, saving each time
     for ae_file in ae_file_list:
         # get number of stations used in AE calculation from filename
@@ -149,7 +151,7 @@ def plot_each_ae(ae_file_list):
 
 
 # run the above function, using globbed ae files from beginning of script
-# plot_each_ae(ae_files)
+plot_each_ae(ae_files)
 
 
 
@@ -179,11 +181,12 @@ def plot_single_ae(ae_file):
     # define a new figure
     fig = plt.figure(figsize=(11,5))
     # give figure a title
-    fig.suptitle(f'AE Calculated with {num_stations} magnetometers', fontsize=16)
+    fig.suptitle(f'AE Calculated with {num_stations} magnetometers', 
+                 fontsize=16)
     # define axes
     ax = plt.subplot(111)
     # set global y-label
-    ax.set_ylabel(f'AE (nT)')
+    ax.set_ylabel(f'AE (nT)', fontsize=16)
     # plot AE over all datetimes
     ax.plot(dts, ae)
     # set x-axis limits (first and last datetime)
@@ -196,8 +199,9 @@ def plot_single_ae(ae_file):
     plt.close('all')
 
 
-# run the above function, using single ae file
+# run the above function, using single ae files
 plot_single_ae(f'./{input_dir}/ae_dict0300.pkl')
+plot_single_ae(f'./{input_dir}/ae_dict2160.pkl')
 
 
 
@@ -229,11 +233,12 @@ def plot_single_al_au(ae_file):
     # define a new figure
     fig = plt.figure(figsize=(11,5))
     # give figure a title
-    fig.suptitle(f'AU and AL Calculated with {num_stations} magnetometers', fontsize=16)
+    fig.suptitle(f'AU and AL Calculated with {num_stations} magnetometers', 
+                 fontsize=16)
     # define axes
     ax = plt.subplot(111)
     # set global y-label
-    ax.set_ylabel(f'AE (nT)')
+    ax.set_ylabel(f'AL and AU (nT)', fontsize=16)
     # plot AL over all datetimes
     ax.plot(dts, al, label=f'AL - {num_stations} mags')
     # plot AU over all datetimes
@@ -314,26 +319,37 @@ def plot_ae_rmse(ae_file_list, vline=False):
     # define a fig
     fig = plt.figure(figsize=(15,7))
     # give figure a title
-    fig.suptitle(f'AE RMSE as a function of number of magnetometers', fontsize=16)
+    fig.suptitle(f'AE RMSE as a function of number of magnetometers', 
+                 fontsize=16)
     # define axes
     ax = plt.subplot(111)
     # plot RMSE as a function of the number of mags used to calculate AE
     ax.plot(num_mags, rmse_vals)
     # set y-axis label
-    ax.set_ylabel('RMSE')
+    ax.set_ylabel('RMSE', fontsize=16)
     # sest x-axis label
-    ax.set_xlabel('Number of Magnetometers used in AE calculation')
+    ax.set_xlabel('Number of Magnetometers used in AE calculation', 
+                  fontsize=16)
     # set x-axis limits (first and last datetime)
     ax.set_xlim(num_mags[0], num_mags[-1])
+    # set y-axis limits
     ax.set_ylim(0, max(rmse_vals))
+    # check if vline is True or False
     if vline:
-         kn = KneeLocator(num_mags, rmse_vals, curve='convex', direction='decreasing')
-         ax.vlines(kn.knee, ax.get_ylim()[0], ax.get_ylim()[1], colors='k', linestyles='dashed')
+        # use kneed package to locate knee point of curve - aka most
+        # optimized point for RMSE and mag number
+         kn = KneeLocator(num_mags, rmse_vals, curve='convex', 
+                          direction='decreasing')
+         # plot a vertical line at knee point
+         ax.vlines(kn.knee, ax.get_ylim()[0], ax.get_ylim()[1], colors='k', 
+                   linestyles='dashed')
+         # assign name to file
          out_file_name = f'{output_dir}/rmse_v_num_mags_vline.png'
     else:
+        # assign name to file if no vline
         out_file_name = f'{output_dir}/rmse_v_num_mags.png'
     # increase num of x-axis ticks to get better visual of where curve drops
-    # plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 10))
+    plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 200))
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file
@@ -344,3 +360,4 @@ def plot_ae_rmse(ae_file_list, vline=False):
 
 # run the above function, using globbed ae files from beginning of script
 plot_ae_rmse(ae_files, vline=True)
+plot_ae_rmse(ae_files)

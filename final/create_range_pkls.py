@@ -9,10 +9,10 @@ Output folder will have start, stop, and step values in folder name.
 import os
 
 # still need to set ae_calc.py to debug if you want any printed statements
-debug = True
+debug = False
 
 # define the start, astop, and step integers to loop through
-start = 10
+start = 30
 stop = 361
 step = 10
 

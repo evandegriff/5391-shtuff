@@ -52,7 +52,7 @@ from scipy.signal import resample #to specify how many mags to use
 
 # set a boolean to limit/add functionality during debugging/testing
 # makes it easier to make small changes without re-running entire fileset
-debug = True
+debug = False
 
 # name variables from the arguments
 output_folder = args.outdir
