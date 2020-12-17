@@ -3,6 +3,8 @@
 Functions to plot AE, AL, and AU data
 
 All functions will run when script is run. Comment function calls as needed.
+Example:
+    python plot_ae.py ae_pkls_10_361_10/ ae_plots/
 
 plot_all_ae:
     Produces single plot with AE plotted over time, one curve for each file in 
@@ -20,7 +22,24 @@ plot_ae_rmse:
     value, and all other AE calculations are compared to this one.
 """
 
-# start with our imports
+# handle args first, import argparse
+from argparse import ArgumentParser
+
+# create parser object, set docstring as help
+parser = ArgumentParser(description=__doc__)
+
+# add all arguments, descriptions and defaults.
+# indir () is a required arg
+parser.add_argument('indir', help='File directory where AE pkl files are.',
+                    type=str)
+# outdir is where the resulting plots will be saved
+parser.add_argument('outdir', help='Directory name for output plots.'+
+                    'Does not need to already exist', type=str)
+
+# collect args together
+args = parser.parse_args()
+
+# now start with the rest of imports
 from pickle import load # to load pkls with AE data
 import matplotlib.pyplot as plt # to do our plotting
 import os # to check if output folder exists and make it if not
@@ -29,10 +48,9 @@ from glob import glob # collecting the files we need into a list
 from kneed import KneeLocator
  
 
-# set input and output directories here
-# chose not to use argparse this time since there are individual functions
-input_dir = 'ae_pkls_10_361_10'
-output_dir = './ae_plots'
+# set input and output directories from args
+input_dir = args.indir
+output_dir = args.outdir
 
 # check if desired output folder exists, if not, create it
 if not os.path.exists(output_dir): os.makedirs(output_dir)
@@ -86,7 +104,7 @@ def plot_all_ae(ae_file_list):
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file
-    plt.savefig(f'{output_dir}/all_ae.png')
+    plt.savefig(f'./{output_dir}/all_ae.png')
     # close the figure
     plt.close('all')
 
@@ -141,7 +159,7 @@ def plot_each_ae(ae_file_list):
         # make plot compact and neat
         plt.tight_layout()
         # create folder inside output folder to hold output from this function
-        out_dir = f'{output_dir}/individual_plots'
+        out_dir = f'./{output_dir}/individual_plots'
         # check if desired output folder exists, if not, create it
         if not os.path.exists(out_dir): os.makedirs(out_dir)
         # save the figure to file
@@ -194,7 +212,7 @@ def plot_single_ae(ae_file):
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file
-    plt.savefig(f'{output_dir}/ae_{num_stations}.png')
+    plt.savefig(f'./{output_dir}/ae_{num_stations}.png')
     # once ALL plots are made, close figure
     plt.close('all')
 
@@ -252,7 +270,7 @@ def plot_single_al_au(ae_file):
     # make plot compact and neat
     plt.tight_layout()
     # save the figure to file
-    plt.savefig(f'{output_dir}/al_au_{num_stations}.png')
+    plt.savefig(f'./{output_dir}/al_au_{num_stations}.png')
     # once ALL plots are made, close figure
     plt.close('all')
 
@@ -347,7 +365,7 @@ def plot_ae_rmse(ae_file_list, vline=False):
          out_file_name = f'{output_dir}/rmse_v_num_mags_vline.png'
     else:
         # assign name to file if no vline
-        out_file_name = f'{output_dir}/rmse_v_num_mags.png'
+        out_file_name = f'./{output_dir}/rmse_v_num_mags.png'
     # increase num of x-axis ticks to get better visual of where curve drops
     plt.xticks(np.arange(num_mags[0], num_mags[-1]+1, 200))
     # make plot compact and neat
