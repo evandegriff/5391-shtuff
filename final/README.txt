@@ -28,7 +28,7 @@ $ python calc_ae.py mag_files_debug/ ae_pkls/
 
 To repeatedly run AE calculation 
 (after specifying start, stop, and step vars in create_range_pkls.py file):
-# python create_range_pkls.py
+$ python create_range_pkls.py
 
 To make all plots:
 $ python plot_ae.py ae_pkls/ ae_plots/
