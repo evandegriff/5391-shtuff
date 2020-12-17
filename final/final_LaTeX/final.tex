@@ -33,9 +33,9 @@
 
 In space physics, the Auroral Electrojet (AE) provides a measure of the magnetic activity in the auroral region, calculated by subtracting the maximum and minimum of the North magnetic field components of about 12 auroral zone observatories between latitudes of 65 and 70 degrees. Space weather modelers calculate the same AE using the output of their model, with varying success. In the Space Weather Modeling Framework (SWMF), the simulated Auroral Electrojet (AE) index is not always a useful numeric because of how approximately it is currently calculated. Unlike the real-life AE calculation, the SWMF calculates AE using 24 virtual magnetometer stations at a fixed 70 degrees.
 
-This final project provides an alternative and more accurate model AE calculation using the SWMF model output. The end result is a set of values for AE over a period of serveral days (September 6-8, 2017) that minimizes both the root-mean-square error (RMSE) and the number of virtual magnetometers used in the calculation.
+This final project provides an alternative and more realistic model AE calculation using the SWMF model output. The end result is a set of values for AE over a period of serveral days (September 6-8, 2017) that minimizes both the root-mean-square error (RMSE) and the number of virtual magnetometers used in the calculation.
 
-Section \ref{calc} describes the setup and code involved in calculating the auroral indices. Section \ref{vis} shows a visual representation of the calculated data, and describes the code used to accomplish this. Section \ref{anal} draws conclusions from the data visualization and provides details of the optimization process. Finally, Section \ref{conc} provides an overview of the project, goals, and methodology.
+Section \ref{calc} describes the setup and code involved in calculating the auroral indices. Section \ref{vis} shows a visual representation of the calculated data, draws conclusions from the data visualization and provides details of the optimization process. Finally, Section \ref{conc} provides an overview of the project, goals, and methodology.
 
 
 \section{AE Calculation} \label{calc}
@@ -55,30 +55,85 @@ Below are the steps to calculate AE for a single magnetometer file:
   \item Resample the array to use specified number of magnetometers per degree latitude
   \item Calculate min and max of array
   \item AE is the subtraction of the min and the max
+  \item (Extra step: calculate the \textit{total} number of magnetometers used to calculate AE by multiplying the number of mags used per degree latitude by the latitude range. For this analysis, the latitude range is 6 degrees, so the number of magnetometers used per degree is multiplied by 6)
 \end{itemize}
 
-\texttt{calc\_ae.py} loops through the specified files and calculates an AE for each timestep. Because of the 10-second frequency, there are almost 20,000 magnetometer files in the entire run. While all of these files are used in the AE calculation, it would take too long to process all files each time the code is run during the development, testing, and debugging processes. To work around this, the code is written to toggle between the full version (processing all magnetometer files) and a debugging version (processing only a few selected files). The debugging version is turned on by default, and as well as restricting the number of files, it prints additional information to the screen for verification purposes.
+Python script \texttt{calc\_ae.py} loops through the specified files and calculates an AE for each timestep. Because of the 10-second frequency, there are almost 20,000 magnetometer files in the entire run. While all of these files are used in the AE calculation, it would take too long to process all files each time the code is run during the development, testing, and debugging processes. To work around this, the code is written to toggle between the full version (processing all magnetometer files) and a debugging version (processing only a few selected files). The debugging version is turned on by default, and as well as restricting the number of files, it prints additional information to the screen for verification purposes.
 
-The goal of calculating AE using SWMF model output has been achieved, and the new goal is to determine the minimum number of magnetometers that are needed to reproduce a satisfactory AE. The first step of this process is to run \texttt{calc\_ae.py} for a decreasing number of magnetometers. \texttt{create\_range\_pkls.py} is a short script that allows the user to specify a start, stop, and step range, then loops through and runs \texttt{calc\_ae.py} for each step size (aka number of magnetometers. 
+The goal of calculating AE using SWMF model output has been achieved, and the new goal is to determine the minimum number of magnetometers that are needed to reproduce a satisfactory AE.
+
+The first step of this process is to run \texttt{calc\_ae.py} for a decreasing number of magnetometers. \texttt{create\_range\_pkls.py} is a short script that allows the user to specify a start, stop, and step range, then loops through and runs \texttt{calc\_ae.py} for each step size (aka number of magnetometers.
 
 
-\section{AE Calculation Visualization} \label{vis}
+\section{AE Data Visualization and Analysis} \label{vis}
 
-\section{AE Calculation Analysis} \label{anal}
+The next step toward determining the minimum number of magnetometers needed for the AE calculation is to visualize the AE data and compare the calculations done using different numbers of magnetometers.
 
+Running \texttt{create\_range\_pkls.py} with a start of 10, stop of 361, and step of 10 yields 36 calculations of AE over the period of the simulation, using a decreasing number of magnetometers.
+
+Plotting AE calculated using all the magnetometer stations (Fig. (\ref{fig:360})) shows the ideal AE output of the model.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/ae_2160.png}
+  \caption{AE calculated from simulation output using all 2160 magnetometers.}
+  \label{fig:360}
+\end{figure}
+
+Overplotting AE curves calculated using fewer and fewer magnetometer stations becomes unhelpful the more curves are added. Plotting an AE curve for each pickle created from \texttt{create\_range\_pkls.py} results in a severaly overloaded plot, shown in Figure (\ref{fig:allae}).
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/all_ae.png}
+  \caption{AE calculated from simulation output using a range of magnetometers.}
+  \label{fig:allae}
+\end{figure}
+
+Another possible technique would be to plot each curve successively, saving a copy of the figure each time a new curve is added. 
+
+A better way to compare the different curves is to set AE calculated with all magnetometers as the idea AE, and compare the other AE curves to this one using root-mean-square error.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/rmse_v_num_mags.png}
+  \caption{RMSE between AE curves as a function of the number of magnetometer stations used in the calculation.}
+  \label{fig:rmse}
+\end{figure}
+
+
+Clearly there is a sharp decline in RMSE as more magnetometers are used in the calculation. But where is the knee point of this curve? That is, what number of magnetomters that minimizes both itself and RMSE? One possible answer to this question lies in a python package called ``kneed'', which computes the knee point of a curve. Using this package to calculate and plot the knee point of the RMSE curve yields Figure (\ref{fig:rmseKnee}).
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/rmse_v_num_mags_vline.png}
+  \caption{RMSE between AE curves shown with optimized ``knee'' point.}
+  \label{fig:rmseKnee}
+\end{figure}
+
+Thus, the optimized number of magnetometer stations to use for the AE calculation is 300, or 50 per degree latitude. AE for 300 magnetometers is shown in Figure (\ref{fig:ae300})
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/ae_300.png}
+  \caption{AE calculated from simulation output using an optimized 300 magnetometers.}
+  \label{fig:ae300}
+\end{figure}
+
+Although the focus of this project is AE, the scripts in this project calculate AL and AU as well, which can be plotted together as in Figure (\ref{fig:alau300})
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=14cm]{../ae_plots/al_au_300.png}
+  \caption{AL and AU calculated from simulation output using an optimized 300 magnetometers.}
+  \label{fig:alau300}
+\end{figure}
 
 \section{Conclusions} \label{conc}
 
+There is much to consider regarding the possibilities of the AE calculation analyzed in this project. First, while finding the knee point may prove to be helpful, using more stations to get a more accurate AE may be advantageous if the number of magnetometers used does not visibly affect the calculation's run time. Second, 
 
-This project demonstrates Python scripting, file I/O in python, and data visualization in python.
+Overall, this project was a success, and reached the goals of calculating and optimizing AE based on Space Weather Modeling Framework output. The process required Python scripting, file I/O in python, and data visualization in python, as well as general use of good coding habits, critical thinking, and creativity.
 
-% blaaaaah doesn't work
-%\begin{figure}[!ht]
-%  \centering
-%  \includegraphics[width=10cm]{ae.png}
-%  \caption{wowwee}
-%  \label{fig:sub}
-%\end{figure}
 
 
 
